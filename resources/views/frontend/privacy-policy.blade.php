@@ -11,8 +11,8 @@
                                 <h2>Privacy Policy</h2>
                             </div>
                             <div class="single-content">
-                                <h4>Welcome to Goose Glasses Privacy Policy</h4>
-                                <p>Welcome to Goose Glasses. We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and share information about you when you visit and interact with our website, Goose Glasses, and purchase our products. By using our services, you agree to the collection and use of information in accordance with this policy. </p>
+                                <h4>Welcome to AtripZ Privacy Policy</h4>
+                                <p>Welcome to AtripZ. We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and share information about you when you visit and interact with our website, AtripZ, and purchase our products. By using our services, you agree to the collection and use of information in accordance with this policy. </p>
                                 <h4>Information We Collect</h4>
                                 <p>We collect information that you provide directly to us when you:</p>
                                 <ol>

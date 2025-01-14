@@ -19,7 +19,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-12 col-md-12">
+    <div class="col-lg-6 col-md-6">
 
         <div class="card mb-4">
             <div class="card-header d-flex justify-content-between">
@@ -88,7 +88,7 @@
             </div> <!-- card-body end// -->
         </div> <!-- card end// -->
     </div>
-    {{-- <div class="col-lg-6 col-md-6">
+    <div class="col-lg-6 col-md-6">
         <div class="card mb-4">
             <div class="card-header d-flex justify-content-between">
                 <h4>Storage</h4>
@@ -142,14 +142,14 @@
                 </table>
             </div> <!-- card-body end// -->
         </div> <!-- card end// -->
-    </div> --}}
+    </div>
 
 </div>
 @include('admin.products.varient.colors_edit')
-{{-- @include('admin.products.varient.size_edit') --}}
+@include('admin.products.varient.size_edit')
 
 @include('admin.products.varient.colors')
-{{-- @include('admin.products.varient.size') --}}
+@include('admin.products.varient.size')
 
 @endsection
 @push('varient')

@@ -6,7 +6,21 @@
                     <div class="row">
                         <div class="col-3 col-sm-3 col-lg-3">
                             <div class="products-nav" wire:ignore>
-                                @if ($product->product_images->isNotEmpty())
+                                @if ($product->colorImages)
+                                @foreach ($product->colorImages as $value)
+                                <div class="item" >
+                                    {{-- <div>{{$value->color_id}}</div> --}}
+                                    <div class="top-img" data-color="{{$value->color_id}}">
+                                        <img src="{{asset('storage/'.$value->image)}}"
+                                            alt="Product">
+                                    </div>
+                                </div>
+                                @endforeach
+                                @endif
+                                @php
+                                    $imageCount = 0;
+                                @endphp
+                                @if ($product->product_images->isNotEmpty() && $product->colorImages->isEmpty())
                                 @php
                                     $imageCount = count($product->product_images);
                                 @endphp
@@ -19,30 +33,11 @@
                                 </div>
                                 @endforeach
                                 @endif
-                                @if ($product->colorImages)
-                                @foreach ($product->colorImages as $value)
-                                <div class="item" >
-                                    <div class="top-img" data-color="{{$value->color_id}}">
-                                        <img src="{{asset('storage/'.$value->image)}}"
-                                            alt="Product">
-                                    </div>
-                                </div>
-                                @endforeach
-                                @endif
+
                             </div>
                         </div>
                         <div class="col-9 col-sm-9 col-lg-9 mt-2">
                             <div class="product-preview" wire:ignore>
-                                @if ($product->product_images->isNotEmpty())
-                                @foreach ($product->product_images as $image)
-                                <div class="item">
-                                    <div class="product-img--main" data-scale="2"
-                                        data-image="{{asset('storage/product_images/'.$image->product_image)}}"
-                                        style="width: 555.984px;">
-                                    </div>
-                                </div>
-                                @endforeach
-                                @endif
                                 @if ($product->colorImages)
                                 @foreach ($product->colorImages as $value)
                                 <div class="item">
@@ -54,6 +49,17 @@
                                 </div>
                                 @endforeach
                                 @endif
+                                @if ($product->product_images->isNotEmpty() && $product->colorImages->isEmpty())
+                                @foreach ($product->product_images as $image)
+                                <div class="item">
+                                    <div class="product-img--main" data-scale="2"
+                                        data-image="{{asset('storage/product_images/'.$image->product_image)}}"
+                                        style="width: 555.984px;">
+                                    </div>
+                                </div>
+                                @endforeach
+                                @endif
+
                             </div>
 
                         </div>
@@ -821,14 +827,14 @@
             var thumbnailSlider = $('.product-preview');
 
             // Find the index of the selected color image in the main slider
-            var selectedIndex =imageCount+ mainSlider.find('.top-img[data-color="' + selectedColor + '"]').closest('.item').index();
+            var selectedIndex =-imageCount+mainSlider.find('.top-img[data-color="' + selectedColor + '"]').closest('.item').index();
             // console.log(selectedIndex);
             // Find the index of the selected color image in the thumbnail slider
-            var selectedThumbIndex =imageCount+ thumbnailSlider.find('.product-img--main[data-color="' + selectedColor + '"]').closest('.item').index();
+            // var selectedThumbIndex =-imageCount+thumbnailSlider.find('.product-img--main[data-color="' + selectedColor + '"]').closest('.item').index();
 
             // Go to the selected color image in both sliders
             mainSlider.slick('slickGoTo', selectedIndex);
-            thumbnailSlider.slick('slickGoTo', selectedThumbIndex);
+            thumbnailSlider.slick('slickGoTo', selectedIndex);
         });
 
     });

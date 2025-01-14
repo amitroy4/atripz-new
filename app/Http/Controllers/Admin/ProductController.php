@@ -64,7 +64,7 @@ class ProductController extends Controller
             'product_images',
             'product_extras',
             'tags',
-            // 'sizes',
+            'sizes',
             'colors',
             'brand',
             'category',
@@ -160,14 +160,14 @@ class ProductController extends Controller
         $categories = Category::all();
         $subcategories = Subcategory::all();
         $colors = Color::all();
-        // $sizes = Size::all();
+        $sizes = Size::all();
         $suppliers = Supplier::all();
         return view('admin.products.create',[
             'brands' => $brands,
             'categories' => $categories,
             'subcategories' => $subcategories,
             'colors' =>$colors,
-            // 'sizes' =>$sizes,
+            'sizes' =>$sizes,
             'suppliers'=> $suppliers
             ]);
     }
@@ -205,7 +205,7 @@ class ProductController extends Controller
             'emi' => ['nullable', 'string', Rule::in(['Available', 'Not Available'])],
 
             'variant_color.*' => 'nullable|exists:colors,id',
-            // 'variant_size.*' => 'nullable|exists:sizes,id',
+            'variant_size.*' => 'nullable|exists:sizes,id',
             'variant_price.*' => 'nullable|numeric',
             'variant_stock.*' => 'required|numeric',
         ];
@@ -240,7 +240,7 @@ class ProductController extends Controller
                     if ($request->has('variant_color')) {
 
                         $colors = $request->variant_color;
-                        // $sizes = $request->variant_size;
+                        $sizes = $request->variant_size;
                         $prices = $request->variant_price;
                         $stocks = $request->variant_stock;
 
@@ -264,17 +264,17 @@ class ProductController extends Controller
                                 ]);
                             }
 
-                            // if (isset($sizes[$index])) {
-                            //     $sizeAttribute = ProductAttribute::create([
-                            //         'product_id' => $product->id,
-                            //         'name' => 'Size',
-                            //         'value' => $sizes[$index],
-                            //     ]);
-                            //     VariantAttribute::create([
-                            //         'variant_id' => $variant->id,
-                            //         'attribute_id' => $sizeAttribute->id,
-                            //     ]);
-                            // }
+                            if (isset($sizes[$index])) {
+                                $sizeAttribute = ProductAttribute::create([
+                                    'product_id' => $product->id,
+                                    'name' => 'Size',
+                                    'value' => $sizes[$index],
+                                ]);
+                                VariantAttribute::create([
+                                    'variant_id' => $variant->id,
+                                    'attribute_id' => $sizeAttribute->id,
+                                ]);
+                            }
                         }
                     }
                 }else{
@@ -444,7 +444,7 @@ class ProductController extends Controller
             'product_images',
             'product_extras',
             'tags',
-            // 'sizes',
+            'sizes',
             'colors',
             'brand',
             'category',
@@ -462,7 +462,7 @@ class ProductController extends Controller
         $categories = Category::all();
         $subcategories = Subcategory::all();
         $colors = Color::all();
-        // $sizes = Size::all();
+        $sizes = Size::all();
         $suppliers = Supplier::all();
 
         $products = Products::with([
@@ -471,7 +471,7 @@ class ProductController extends Controller
             'product_images',
             'product_extras',
             'tags',
-            // 'sizes',
+            'sizes',
             'colors',
             'brand',
             'category',
@@ -521,7 +521,7 @@ class ProductController extends Controller
             'emi' => ['nullable', 'string', Rule::in(['Available', 'Not Available'])],
 
             'variant_color.*' => 'nullable|exists:colors,id',
-            // 'variant_size.*' => 'nullable|exists:sizes,id',
+            'variant_size.*' => 'nullable|exists:sizes,id',
             'variant_price.*' => 'nullable|numeric',
             'variant_stock.*' => 'required|numeric',
         ];
@@ -552,7 +552,7 @@ class ProductController extends Controller
             // Update product variants and their attributes
             $variantIds = $request->input('variant_ids', []);
             $variantColors = $request->input('variant_color', []);
-            // $variantSizes = $request->input('variant_size', []);
+            $variantSizes = $request->input('variant_size', []);
             $variantPrices = $request->input('variant_price', []);
             $variantStocks = $request->input('variant_stock', []);
 
@@ -580,25 +580,25 @@ class ProductController extends Controller
                         }
                     }
 
-                    // if (isset($variantSizes[$index])) {
-                    //     $sizeAttribute = $variant->attributes()->whereHas('attribute', function($query) {
-                    //         $query->where('name', 'Size');
-                    //     })->first();
+                    if (isset($variantSizes[$index])) {
+                        $sizeAttribute = $variant->attributes()->whereHas('attribute', function($query) {
+                            $query->where('name', 'Size');
+                        })->first();
 
-                    //     if ($sizeAttribute) {
-                    //         $sizeAttribute->attribute->update(['value' => $variantSizes[$index]]);
-                    //     } else {
-                    //         $sizeAttr = ProductAttribute::create(['product_id' => $product->id, 'name' => 'Size', 'value' => $variantSizes[$index]]);
-                    //         VariantAttribute::create(['variant_id' => $variant->id, 'attribute_id' => $sizeAttr->id]);
-                    //     }
-                    // }
+                        if ($sizeAttribute) {
+                            $sizeAttribute->attribute->update(['value' => $variantSizes[$index]]);
+                        } else {
+                            $sizeAttr = ProductAttribute::create(['product_id' => $product->id, 'name' => 'Size', 'value' => $variantSizes[$index]]);
+                            VariantAttribute::create(['variant_id' => $variant->id, 'attribute_id' => $sizeAttr->id]);
+                        }
+                    }
                 }
             }
 
             if ($request->has('new_variant_color')) {
 
                 $colors = $request->new_variant_color;
-                // $sizes = $request->new_variant_size;
+                $sizes = $request->new_variant_size;
                 $prices = $request->new_variant_price;
                 $stocks = $request->new_variant_stock;
 
@@ -622,17 +622,17 @@ class ProductController extends Controller
                         ]);
                     }
 
-                    // if (isset($sizes[$index])) {
-                    //     $sizeAttribute = ProductAttribute::create([
-                    //         'product_id' => $product->id,
-                    //         'name' => 'Size',
-                    //         'value' => $sizes[$index],
-                    //     ]);
-                    //     VariantAttribute::create([
-                    //         'variant_id' => $variant->id,
-                    //         'attribute_id' => $sizeAttribute->id,
-                    //     ]);
-                    // }
+                    if (isset($sizes[$index])) {
+                        $sizeAttribute = ProductAttribute::create([
+                            'product_id' => $product->id,
+                            'name' => 'Size',
+                            'value' => $sizes[$index],
+                        ]);
+                        VariantAttribute::create([
+                            'variant_id' => $variant->id,
+                            'attribute_id' => $sizeAttribute->id,
+                        ]);
+                    }
                 }
             }
 
