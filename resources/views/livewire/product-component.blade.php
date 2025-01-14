@@ -161,20 +161,21 @@
                                     @endforeach
                             </ul>
                         </div>
-                        <div class="variation-add-to-cart variations_button variation-add-to-cart-enabled">
+
+                        {{-- <div class="variation-add-to-cart variations_button variation-add-to-cart-enabled"> --}}
                             {{-- <input type="hidden" class="tm-epo-counter" name="tm-epo-counter" value="1">
                             <input type="hidden" data-epo-id="1" class="add-to-cart" name="ddtocart" value="19378"> --}}
-                            <div class="" id="extra-product-options">
+                            {{-- <div class="" id="extra-product-options">
                                 <div class="section-inner-wrap">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <h3 class="mt-3 mb-2">
                                                 <span class="">Let's </span>Choose Your Own Power Glass
-                                            </h3>
+                                            </h3> --}}
                                             {{-- <div class="mb-2">
                                                 <p>you can order this product with power lens</p>
                                             </div> --}}
-                                        </div>
+                                        {{-- </div>
                                         <div class="col-lg-12 col-md-12">
                                             <div class="ml-20 mb-3">
                                                 <div class="">
@@ -204,12 +205,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div id="powerlens" class="choosePowerLens" style="{{ $selectedEyewear == 'ChoosePowerLens' ? 'display:block;' : 'display:none;' }}">
+                                    </div> --}}
+                                    {{-- <div id="powerlens" class="choosePowerLens" style="{{ $selectedEyewear == 'ChoosePowerLens' ? 'display:block;' : 'display:none;' }}">
                                         <div class="row">
                                             <h4 class="mb-2"> Select type of lens</h4>
-                                            <span class="text-danger" id="lenseSelect_warning"></span>
-                                            @if ( stripos($product->category->category_name, 'lenses') != false ||
+                                            <span class="text-danger" id="lenseSelect_warning"></span> --}}
+                                            {{-- @if ( stripos($product->category->category_name, 'lenses') != false ||
                                                 (isset($product->category->parent) &&
                                                 stripos($product->category->parent->category_name, 'lenses') != false)
                                                 )
@@ -305,8 +306,8 @@
                                                      </li>
                                                  </ul>
                                              </div>
-                                            @endif
-                                        </div>
+                                            @endif --}}
+                                        {{-- </div> --}}
                                         {{-- <div class="row my-4">
                                             <div class="col-lg-12 col-md-12">
                                                 <h3 class="element-label">Prescription Note</h3>
@@ -323,7 +324,7 @@
                                                 </ul>
                                             </div>
                                         </div> --}}
-                                        <div class="row mb-4">
+                                        {{-- <div class="row mb-4">
                                             <div class="col-lg-12">
                                                 <p>Please upload your recent prescription image here.</p>
                                                 <span class="text-danger" id="image_warning"></span>
@@ -354,34 +355,97 @@
                                             @endif
 
                                             @error('prescriptionImage') <span class="text-danger">{{ $message }}</span> @enderror
-                                        </div>
-
+                                        </div> --}}
+{{--
                                             </div>
                                         </div>
                                     </div>
 
                                 </div>
                             </div>
-                            <div>
-                                <div>
+                            <div> --}}
+                                {{-- <div>
                                     <dl class="tm-extra-product-options-totals tm-custom-price-totals">
                                         <dt class="tm-options-totals">Options amount: </dt>
                                         <dd class="tm-options-totals ml-20">
                                             <span class="Price-amount amount active">
-                                                <bdi wire:ignore  id="lens_price">0.00<span class="Price-currencySymbol">৳</span></bdi>
+                                                <bdi wire:ignore  id="lens_price">0.00<span class="Price-currencySymbol">৳</span></bdi> --}}
                                                 {{-- <input type="hidden" id="lens_price" name="lens_price" class="lens_price"> --}}
-                                            </span>
-                                        </dd>
-                                        <dt class="tm-final-totals">Final total: </dt>
-                                        <dd class="tm-final-totals ml-20">
-                                            <span class="Price-amount final amount active ">
-                                                <bdi wire:ignore id="final_amount">0.00<span class="Price-currencySymbol">৳</span></bdi>
+                                            {{-- </span> --}}
+                                        {{-- </dd> --}}
+                                        {{-- <dt class="tm-final-totals">Final total: </dt> --}}
+                                        {{-- <dd class="tm-final-totals ml-20"> --}}
+                                            {{-- <span class="Price-amount final amount active "> --}}
+                                                {{-- <bdi wire:ignore id="final_amount">0.00<span class="Price-currencySymbol">৳</span></bdi> --}}
                                                 {{-- <input type="hidden" id="product_price" name="product_price" class="product-price"> --}}
-                                            </span>
-                                        </dd>
-                                    </dl>
-                                </div>
-                            </div>
+                                            {{-- </span> --}}
+                                        {{-- </dd> --}}
+                                    {{-- </dl>
+                                </div> --}}
+                            {{-- </div>
+                        </div> --}}
+                        @endif
+
+                        @if ($selectedColor)
+                        <div class="size-varient">
+                            <h4 class="size-varient-title">Storage</h4>
+
+                            <ul class="size-varient-list size-filter" id="sizeOptions">
+                                @foreach ($productDetails as $variant => $details)
+                                @foreach ($details as $index => $detail)
+                                @if ($index == $selectedColor)
+                                @foreach ($detail as $sizename => $size)
+                                @if ($size['inStock']>0)
+                                <li class="">
+                                    <div class="size-option @if ($sizename == $selectedSize) selected @endif"
+                                        data-size="{{ $sizename }}"
+                                        wire:click="selectSizeVariant('{{$sizename}}','{{ $size['variant_id'] }}')">
+                                        <span>{{ $sizename }} ({{ $size['inStock'] }})</span>
+                                    </div>
+                                </li>
+                                @endif
+                                @endforeach
+                                @endif
+                                @endforeach
+                                @endforeach
+                            </ul>
+
+                        </div>
+                        @elseif (!empty($sizeStockData) )
+                        <div class="size-varient">
+                            <h4 class="size-varient-title">Size</h4>
+                            <ul class="size-varient-list size-filter" id="sizeOptions">
+                                @php $active = true; @endphp
+
+                                @foreach($sizeStockData as $sizeName => $stock)
+                                @php
+                                $size = $sizes->firstWhere('size', $sizeName);
+                                $isDisabled = $stock['balance'] <= 0; @endphp @if($size) @if ($stock['balance']> 0)
+                                    <li class="{{ $active ? 'active' : '' }}">
+                                        <div class="size-option" data-size="{{ $size->size }}"
+                                            wire:click="itemSize(40)">
+                                            <span>{{ $size->size }}</span>
+                                        </div>
+                                        <p class="size-stock-preview"> {{ $stock['balance'] }}
+                                            Items
+                                        </p>
+                                    </li>
+                                    @else
+                                    <li
+                                        class="{{ $active && !$isDisabled ? 'active' : '' }} {{ $isDisabled ? 'disabled' : '' }}">
+                                        <div class="size-option" data-size="{{ $size->size }}"
+                                            wire:click="itemSize(40)">
+                                            <span>{{ $size->size }}</span>
+                                        </div>
+                                        <p class="size-stock-preview"> {{ $stock['balance'] }}
+                                            Items
+                                        </p>
+                                    </li>
+                                    @endif
+                                    @php $active = false; @endphp
+                                    @endif
+                                    @endforeach
+                            </ul>
                         </div>
                         @endif
 

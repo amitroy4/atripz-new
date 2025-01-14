@@ -115,43 +115,43 @@ class ProductComponent extends Component
         $item_slug = $product->slug;
         $item_image = Product_image::where('product_id', $id)->select('product_image')->first();
         $tempPath = '';
-        if($this->selectedEyewear == 'ChoosePowerLens'){
+        // if($this->selectedEyewear == 'ChoosePowerLens'){
 
-            $this->validate([
-               'prescriptionImage' => 'nullable|mimes:jpg,jpeg,png,pdf|max:1024', // Validate prescription image
-            ]);
+        //     $this->validate([
+        //        'prescriptionImage' => 'nullable|mimes:jpg,jpeg,png,pdf|max:1024', // Validate prescription image
+        //     ]);
 
-            if($this->prescriptionImage){
-                $tempPath = $this->prescriptionImage->store('livewire-temp', 'public');
-                session(['temp_file_path' => $tempPath]);
-            }
-            else{
-                // return redirect()->back()->with('danger','Please Upload prescription.');
-                 $tempPath = "";
-            }
+        //     if($this->prescriptionImage){
+        //         $tempPath = $this->prescriptionImage->store('livewire-temp', 'public');
+        //         session(['temp_file_path' => $tempPath]);
+        //     }
+        //     else{
+        //         // return redirect()->back()->with('danger','Please Upload prescription.');
+        //          $tempPath = "";
+        //     }
 
-            // Extract lens type and price from the lensType variable
-            list($lensType, $lensPrice) = explode('+', $this->lensType);
+        //     // Extract lens type and price from the lensType variable
+        //     list($lensType, $lensPrice) = explode('+', $this->lensType);
 
-            // Calculate the final amount
-            $this->finalAmount = $item_price + $lensPrice;
-            $item_price =$this->finalAmount;
-            $options = [
-                'image' => $item_image,
-                'slug' => $item_slug,
-                'size' => $this->selectedSize,
-                'color' =>$this->selectedColor,
-                'variant_id' =>$this->selectedVariant,
-                'selected_eyewear' => $this->selectedEyewear,
-                'lens_type' => $lensType,
-                'prescription_note' => $this->Note,
-                'prescription_image' => $tempPath,
-                'lens_price' => $lensPrice,
-                'final_amount' => $this->finalAmount,
-                // Add more fields as needed
-            ];
-        }
-        else{
+        //     // Calculate the final amount
+        //     $this->finalAmount = $item_price + $lensPrice;
+        //     $item_price =$this->finalAmount;
+        //     $options = [
+        //         'image' => $item_image,
+        //         'slug' => $item_slug,
+        //         'size' => $this->selectedSize,
+        //         'color' =>$this->selectedColor,
+        //         'variant_id' =>$this->selectedVariant,
+        //         'selected_eyewear' => $this->selectedEyewear,
+        //         'lens_type' => $lensType,
+        //         'prescription_note' => $this->Note,
+        //         'prescription_image' => $tempPath,
+        //         'lens_price' => $lensPrice,
+        //         'final_amount' => $this->finalAmount,
+        //         // Add more fields as needed
+        //     ];
+        // }
+        // else{
 
 
             $options = [
@@ -168,7 +168,7 @@ class ProductComponent extends Component
                 'final_amount' => $item_price,
                 // Add more fields as needed
             ];
-        }
+        // }
         $item_qty = session()->get('quantity') + 1;
         $item_data = Cart::instance('cart')->add($item_id,$item_name,$item_qty,$item_price,$options);
 
@@ -352,6 +352,7 @@ class ProductComponent extends Component
         $productStock = $this->getVariantProductStock($product->id);
         // Group stock data by color and colors
         $colorStockData = $this->groupStockByColor($productStock);
+        $sizeStockData = $this->groupStockBySize($productStock);
 
         $specifications = Specification::where('product_id',$product->id)->get();
         // dd($sizeStockData, $colorStockData);
@@ -361,7 +362,7 @@ class ProductComponent extends Component
         foreach ($productStock as $item) {
             $productId = $item['product_id'];
             $color = $item['color'];
-            // $size = $item['size'];
+            $size = $item['size'];
             $inStock = $item['inStock'];
             $outStock = $item['outStock'];
             $variantId = $item['variant_id'];
@@ -374,6 +375,15 @@ class ProductComponent extends Component
             // Check if the color exists under the product_id, if not, initialize it
             if (!isset($productDetails[$productId][$color])) {
                 $productDetails[$productId][$color] = [];
+            }
+
+            // Check if the size exists under the color, if not, initialize it with stock details and variant_id
+            if (!isset($productDetails[$productId][$color][$size])) {
+                $productDetails[$productId][$color][$size] = [
+                    'variant_id' => $variantId,
+                    'inStock' => $inStock,
+                    'outStock' => $outStock
+                ];
             }
         }
 
@@ -422,8 +432,10 @@ class ProductComponent extends Component
 
         $variants = $product->variants->map(function ($variant) {
             $variantColorAttribute = $variant->attributes->firstWhere('attribute.name', 'Color');
+            $variantSizeAttribute = $variant->attributes->firstWhere('attribute.name', 'Size');
 
             $variantColor = $variantColorAttribute ? $variantColorAttribute->attribute->value : null;
+            $variantSize = $variantSizeAttribute ? $variantSizeAttribute->attribute->value : null;
 
             $outStock = order_items::where('product_id', $variant->product_id)
                 ->when($variantColor, function ($query) use ($variantColor) {
@@ -437,6 +449,7 @@ class ProductComponent extends Component
                 'variant_id' => $variant->id,
                 'product_id' => $variant->product_id,
                 'color' => $variantColor ? Color::find($variantColor)->color_name : null,
+                'size' => $variantSize ? Size::find($variantSize)->size : null,
                 'inStock' => $variant->stock,
                 'outStock' => $outStock,
             ];
@@ -472,6 +485,33 @@ class ProductComponent extends Component
 
         return $groupedByColor;
     }
+
+
+    private function groupStockBySize($productStock)
+    {
+        $groupedBySize = [];
+
+        foreach ($productStock as $variant) {
+            $size = $variant['size'];
+
+            if ($size !== null) {
+                if (!isset($groupedBySize[$size])) {
+                    $groupedBySize[$size] = [
+                        'inStock' => 0,
+                        'outStock' => 0,
+                        'balance' => 0,
+                    ];
+                }
+
+                $groupedBySize[$size]['inStock'] += $variant['inStock'];
+                $groupedBySize[$size]['outStock'] += $variant['outStock'];
+                $groupedBySize[$size]['balance'] = $groupedBySize[$size]['inStock'] - $groupedBySize[$size]['outStock'];
+            }
+        }
+
+        return $groupedBySize;
+    }
+
 
 
 }

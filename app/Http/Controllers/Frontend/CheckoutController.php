@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 // use DB;
+use App\Models\Size;
 use App\Models\Color;
 use App\Models\Order;
 use App\Models\Coupon;
@@ -85,6 +86,7 @@ class CheckoutController extends Controller
 
     public function store(Request $request)
     {
+
         // $cartItems = Cart::instance('cart')->content();
         // return $cartItems;
         $track_id = $this->generateCode();
@@ -111,6 +113,7 @@ class CheckoutController extends Controller
                 $order->is_shipping_different = $request->is_shipping ? 1 : 0;
                 $order->comment = $request->comment;
                 $order->save();
+                // dd($order);
                 $order_status = Orderstatus::create([
                     'order_id' => $order->id,
                 ]);
@@ -125,28 +128,34 @@ class CheckoutController extends Controller
                 $cartItems = Cart::instance('cart')->content();
                 // return $cartItems;
                 foreach ($cartItems as $cartItem) {
-                    $tempFilePath = $cartItem->options->prescription_image;
-
-                    if($tempFilePath){
-                        $permanentPath = "prescription/".basename($tempFilePath);
-                    }
-                    else{
-                        $permanentPath = null;
-                    }
                     $color = Color::where('color_name', $cartItem->options->color)->first();
+                    $size = Size::where('size', $cartItem->options->size)->first();
+                    // return $size;
+                    // $tempFilePath = $cartItem->options->prescription_image;
+
+                    // if($tempFilePath){
+                    //     $permanentPath = "prescription/".basename($tempFilePath);
+                    // }
+                    // else{
+                    //     $permanentPath = null;
+                    // }
+                    // return $size->id;
                     order_items::create([
                         'product_id' => $cartItem->id,
                         'order_id' => $order->id,
                         'color_id' => $color->id,
+                        'size_id' => $size->id,
                         'price' => $cartItem->price,
                         'quantity' => $cartItem->qty,
-                        'eyeweartype' => $cartItem->options->selected_eyewear,
-                        'lens_type' => $cartItem->options->lens_type,
-                        'prescription_note' => $cartItem->options->prescription_note,
-                        'prescription_image' => $permanentPath,
-                        'lens_price' => $cartItem->options->lens_price,
-                        'item_price_withlens' => $cartItem->options->final_amount,
+                        // 'eyeweartype' => $cartItem->options->selected_eyewear,
+                        // 'lens_type' => $cartItem->options->lens_type,
+                        // 'prescription_note' => $cartItem->options->prescription_note,
+                        // 'prescription_image' => $permanentPath,
+                        // 'lens_price' => $cartItem->options->lens_price,
+                        // 'item_price_withlens' => $cartItem->options->final_amount,
+
                     ]);
+
                     $item = [
                         'item_id' => $cartItem->id,
                         'item_name' => $cartItem->name,
@@ -154,13 +163,13 @@ class CheckoutController extends Controller
                         'quantity' => $cartItem->qty,
                     ];
                     $purchaseEventData['items'][] = $item;
-                    if($cartItem->options->selected_eyewear == 'ChoosePowerLens'){
-                        if($tempFilePath){
-                        Storage::disk('public')->move($tempFilePath, $permanentPath);
-                        Storage::disk('public')->delete($tempFilePath);
-                        session()->forget('temp_file_path');
-                        }
-                    }
+                    // if($cartItem->options->selected_eyewear == 'ChoosePowerLens'){
+                    //     if($tempFilePath){
+                    //     Storage::disk('public')->move($tempFilePath, $permanentPath);
+                    //     Storage::disk('public')->delete($tempFilePath);
+                    //     session()->forget('temp_file_path');
+                    //     }
+                    // }
                 }
 
                 $transaction = transactions::create([
@@ -314,28 +323,29 @@ class CheckoutController extends Controller
                     // return $cartItems;
                     foreach ($cartItems as $cartItem) {
 
-                        $tempFilePath = $cartItem->options->prescription_image;
+                        // $tempFilePath = $cartItem->options->prescription_image;
 
-                        if($tempFilePath){
-                            $permanentPath = "prescription/".basename($tempFilePath);
-                        }
-                        else{
-                            $permanentPath = null;
-                        }
+                        // if($tempFilePath){
+                        //     $permanentPath = "prescription/".basename($tempFilePath);
+                        // }
+                        // else{
+                        //     $permanentPath = null;
+                        // }
                         $color = Color::where('color_name', $cartItem->options->color)->first();
+                        $size = Size::where('size_name', $cartItem->options->size)->first();
                         order_items::create([
                             'product_id' => $cartItem->id,
                             'order_id' => $order->id,
-                            'order_id' => $order->id,
+                            'size_id' => $size->id,
                             'color_id' => $color->id,
                             'price' => $cartItem->price,
                             'quantity' => $cartItem->qty,
-                            'eyeweartype' => $cartItem->options->selected_eyewear,
-                            'lens_type' => $cartItem->options->lens_type,
-                            'prescription_note' => $cartItem->options->prescription_note,
-                            'prescription_image' => $permanentPath,
-                            'lens_price' => $cartItem->options->lens_price,
-                            'item_price_withlens' => $cartItem->options->final_amount,
+                            // 'eyeweartype' => $cartItem->options->selected_eyewear,
+                            // 'lens_type' => $cartItem->options->lens_type,
+                            // 'prescription_note' => $cartItem->options->prescription_note,
+                            // 'prescription_image' => $permanentPath,
+                            // 'lens_price' => $cartItem->options->lens_price,
+                            // 'item_price_withlens' => $cartItem->options->final_amount,
                         ]);
 
                         $item = [
@@ -345,13 +355,13 @@ class CheckoutController extends Controller
                                 'quantity' => $cartItem->qty,
                             ];
                         $purchaseEventData['items'][] = $item;
-                        if($cartItem->options->selected_eyewear == 'ChoosePowerLens'){
-                            if($tempFilePath){
-                            Storage::disk('public')->move($tempFilePath, $permanentPath);
-                            Storage::disk('public')->delete($tempFilePath);
-                            session()->forget('temp_file_path');
-                            }
-                        }
+                        // if($cartItem->options->selected_eyewear == 'ChoosePowerLens'){
+                        //     if($tempFilePath){
+                        //     Storage::disk('public')->move($tempFilePath, $permanentPath);
+                        //     Storage::disk('public')->delete($tempFilePath);
+                        //     session()->forget('temp_file_path');
+                        //     }
+                        // }
                     }
 
                     if($request->is_shipping){

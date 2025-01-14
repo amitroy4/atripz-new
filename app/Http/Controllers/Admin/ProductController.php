@@ -485,7 +485,7 @@ class ProductController extends Controller
             // dd($hasVariants);
         }
 
-        return view('admin.products.edit',compact('products','brands','categories','subcategories','colors','suppliers'));
+        return view('admin.products.edit',compact('products','brands','categories','subcategories','colors','suppliers','sizes'));
     }
 
     /**

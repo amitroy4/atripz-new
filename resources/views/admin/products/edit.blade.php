@@ -209,7 +209,7 @@
                                                         <option value="{{ $color->id }}" {{ $selectedColor}}>{{ $color->color_name }}</option>
                                                     @endforeach
                                                 </select>
-                                                {{-- <select name="variant_size[]" class="form-control mr-2 size-select" disabled>
+                                                <select name="variant_size[]" class="form-control mr-2 size-select" disabled>
                                                     <option value="">Select Size</option>
                                                     @foreach($sizes as $size)
                                                         @php
@@ -221,7 +221,7 @@
                                                         @endphp
                                                         <option value="{{ $size->id }}" {{$selectedSize }}>{{ $size->size }}</option>
                                                     @endforeach
-                                                </select> --}}
+                                                </select>
                                                 <input type="number" name="variant_price[]" class="form-control mr-2" value="{{ $variant->price }}" placeholder="Price" required>
                                                 <input type="number" name="variant_stock[]" class="form-control mr-2" value="{{ $variant->stock }}" placeholder="Stock" required>
                                                 <input type="hidden" name="variant_ids[]" value="{{ $variant->id }}">
@@ -395,12 +395,12 @@
                         <option value="{{$color->id}}">{{$color->color_name}}</option>
                     @endforeach
                 </select>
-                {{-- <select name="new_variant_size[]" class="form-control mr-2 size-select">
+                <select name="new_variant_size[]" class="form-control mr-2 size-select">
                     <option value="">Select Size</option>
                     @foreach($sizes as $size)
                         <option value="{{$size->id}}">{{$size->size}}</option>
                     @endforeach
-                </select> --}}
+                </select>
                 <input type="number" name="new_variant_price[]" class="form-control mr-2" placeholder="Price">
                 <input type="number" name="new_variant_stock[]" class="form-control mr-2" placeholder="Stock">
                 <button type="button" class="btn-custom btn-custom-danger removeVariant">
