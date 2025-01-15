@@ -30,7 +30,7 @@ class customerMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: '[AntStore - Your ultimate Lifestyle]: New order #'. $this->data->id ,
+            subject: '[AtripZbd - Your ultimate Lifestyle]: New order #'. $this->data->id ,
         );
     }
 
@@ -53,6 +53,7 @@ class customerMail extends Mailable
     public function generateInvoicePDF($id){
 
         $order = Order::where('id', $id)->first();
+        // dd($order);
 
         if (!$order) {
             return 'Order not found';

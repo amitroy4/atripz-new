@@ -240,6 +240,8 @@ class CheckoutController extends Controller
                         // You can show a session message or take any other action
                         return redirect()->back()->with('warning', 'The same email or phone already exists. Please login first.');
                     } else {
+
+
                         // Customer does not exist, create a new one
                         $customer = new Customer;
                         $customer->firstName  = $request->fname;
@@ -258,6 +260,7 @@ class CheckoutController extends Controller
                     $customerPhone = $customer->phone;
                     $customerEmail = $customer->email;
 
+                    // dd($customer);
                     // if new customer registration store.
                     if($request->is_createaccount){
                         $customer_reg = new Register_customer;
@@ -267,7 +270,7 @@ class CheckoutController extends Controller
                         $customer_reg->password = Hash::make($request->password);
                         $customer_reg->status = 'registerd';
                         $customer_reg->save();
-
+                        // dd($customer_reg);
                         $registration_status = $customer_reg->status;
                         $register_customer = Customer::find($customer_reg->customer_id);
                         $register_customer->update([
@@ -282,17 +285,19 @@ class CheckoutController extends Controller
                         $customer_reg->phone = $customerPhone;
                         $customer_reg->email = $customerEmail;
                         $customer_reg->password = Hash::make($customerPhone);
-                        $customer_reg->status = 'registerd';
+                        $customer_reg->status = 'not registerd';
                         $customer_reg->save();
-
                         $registration_status = $customer_reg->status;
+                        // dd($customer_reg);
+
                         $register_customer = Customer::find($customer_reg->customer_id);
                         $register_customer->update([
-                        'status' => $registration_status,
+                            'status' => $registration_status,
                         ]);
 
                         Session::flash('warning','Use your Phone number as password to login.');
                     }
+
 
                     $order = new Order;
                     $order->customer_id = $customer_id;
@@ -307,10 +312,10 @@ class CheckoutController extends Controller
                     $order->is_shipping_different = $request->is_shipping ? 1 : 0;
                     $order->comment = $request->comment;
                     $order->save();
-
                     $order_status = Orderstatus::create([
                         'order_id' => $order->id,
                     ]);
+                    // dd($order_status);
                     $purchaseEventData['transaction_id'] = $invoiceNo; // actual transaction ID
                     $purchaseEventData['value'] = $request->total_amount; // Total amount of the transaction
                     $purchaseEventData['tax'] = $request->tax; // Tax amount
@@ -321,6 +326,7 @@ class CheckoutController extends Controller
 
                     $cartItems = Cart::instance('cart')->content();
                     // return $cartItems;
+                    // dd($cartItems);
                     foreach ($cartItems as $cartItem) {
 
                         // $tempFilePath = $cartItem->options->prescription_image;
@@ -332,8 +338,9 @@ class CheckoutController extends Controller
                         //     $permanentPath = null;
                         // }
                         $color = Color::where('color_name', $cartItem->options->color)->first();
-                        $size = Size::where('size_name', $cartItem->options->size)->first();
-                        order_items::create([
+                        $size = Size::where('size', $cartItem->options->size)->first();
+                        // dd($size);
+                        $order_items =order_items::create([
                             'product_id' => $cartItem->id,
                             'order_id' => $order->id,
                             'size_id' => $size->id,
@@ -354,6 +361,8 @@ class CheckoutController extends Controller
                                 'price' => $cartItem->price,
                                 'quantity' => $cartItem->qty,
                             ];
+
+                        // dd($item);
                         $purchaseEventData['items'][] = $item;
                         // if($cartItem->options->selected_eyewear == 'ChoosePowerLens'){
                         //     if($tempFilePath){
@@ -402,11 +411,14 @@ class CheckoutController extends Controller
                         'order_id' => $order->id,
                         'mode' => $request->payment_mode,
                     ]);
+
                 }
 
                 $order->notify(new NewPendingOrderNotification($order));
+                // dd($customer->email);
 
-                Mail::to( $customer->email)->send( new customerMail($order));
+                Mail::to($customer->email)->send( new customerMail($order));
+
 
             }
 

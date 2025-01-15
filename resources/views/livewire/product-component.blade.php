@@ -388,7 +388,7 @@
 
                         @if ($selectedColor)
                         <div class="size-varient">
-                            <h4 class="size-varient-title">Storage</h4>
+                            <h4 class="size-varient-title">Size</h4>
 
                             <ul class="size-varient-list size-filter" id="sizeOptions">
                                 @foreach ($productDetails as $variant => $details)
