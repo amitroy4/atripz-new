@@ -30,7 +30,7 @@
             <select required class="form-control mb-2" name="area" id="area" wire:model="selectedPostOffices" wire:change="updateDeliveryCharge">
                 <option value="0">Select Area/ Postoffice</option>
                 @foreach($postOfficess as $postOffice)
-                    <option value="{{ $postOffice->id }}">{{ $postOffice->postOffice }} - {{ $postOffice->postCode }}</option>
+                    <option value="{{ $postOffice->id }}">{{ $postOffice->postOffice }} - {{ $postOffice->postCode }} - {{$postOffice->zone_charge}}</option>
                 @endforeach
             </select>
         </div>

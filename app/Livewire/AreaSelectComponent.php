@@ -44,6 +44,14 @@ class AreaSelectComponent extends Component
 
     public function updateDeliveryCharge()
     {
-        $this->dispatch('postOfficeChanged', $this->selectedPostOffice);
+        // $this->dispatch('postOfficeChanged', $this->selectedPostOffice);
+        if ($this->selectedPostOffice) {
+            $postOffice = Postcode::find($this->selectedPostOffice);
+            // dd( $postOffice);
+            if ($postOffice) {
+                // $this->dispatch('postOfficeChanged', $postOffice->zone_charge);
+                $this->dispatch('postOfficeChanged', $postOffice->zone_charge)->to(CheckoutComponent::class);
+            }
+        }
     }
 }
