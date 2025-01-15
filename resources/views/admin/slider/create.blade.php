@@ -15,9 +15,9 @@
             <div class="modal-body">
 
                 <div class="row g-3">
-                    <div class="col-md-12 mb-2">
+                    {{-- <div class="col-md-12 mb-2">
                         <label for="slider_title" class="form-label">Title<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="slider_title" name="slider_title" placeholder="Slider Title" required>
+                        <input type="text" class="form-control" id="slider_title" name="slider_title" placeholder="Slider Title">
                     </div>
                     <div class="col-md-12 mb-2">
                         <label for="slider_sub_title" class="form-label">Subtitle</label>
@@ -32,7 +32,7 @@
                     <div class="col-md-12 mb-2">
                         <label for="slider_url" class="form-label">Button URL</label>
                         <input type="text" class="form-control" id="slider_url" name="slider_url" placeholder="Button URL">
-                    </div>
+                    </div> --}}
 
                     <div class="col-md-12 mb-2">
                       <label for="slider_image" class="form-label">Slider Image<span class="text-danger">*</span></label>

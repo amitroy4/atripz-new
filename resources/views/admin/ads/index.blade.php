@@ -57,11 +57,11 @@
                             <td>
                                 @if ($ads->is_featured == 1)
                                     @if ($ads->is_feature_no == 1)
-                                     <span class="badge bg-success">1. After New Arrival</span>
+                                     <span class="badge bg-success">1. After Delivery</span>
                                     @elseif ($ads->is_feature_no == 2)
-                                     <span class="badge bg-success">2. After Campaign</span>
+                                     <span class="badge bg-success">2. After New Arrival</span>
                                     @else
-                                     <span class="badge bg-success">3. After Popular Products</span>
+                                     <span class="badge bg-success">3. After All Products</span>
                                     @endif
                                 @else
                                 <span class="badge bg-danger">Not Featured</span>
@@ -123,12 +123,13 @@
             }
         });
         $.ajax({
-            url: '/dashboard/ads/edit',
+            url: '/dashboard/setting/ads/edit',
             method: 'GET',
             data: {
                 id: adsId,
             },
             success: function (response) {
+                // console.log(response);
                 $('#ads_id').val(response.id);
                 $('#ads_header').val(response.header);
                 $('#ads_title').val(response.title);
@@ -156,9 +157,9 @@
     $("#adsUpdateForm").submit(function (e) {
         e.preventDefault();
         const data = new FormData(this);
-        console.log(data);
+        // console.log(data);
         $.ajax({
-            url: '/dashboard/ads/update',
+            url: '/dashboard/setting/ads/update',
             method: 'post',
             data: data,
             cache: false,

@@ -9015,7 +9015,7 @@ textarea.form-control-lg {
 
 .text-primary {
     --bs-text-opacity: 1;
-    color: rgba(#621991,var(--bs-text-opacity))!important
+    color: rgba(#1a3661,var(--bs-text-opacity))!important
 }
 
 .text-secondary {

@@ -295,25 +295,25 @@
                     padding-bottom: 5px;
                   }
                   .active{
-                    color: #ffffff !important;
+                    color: #300c47 !important;
                     font-weight: bold;
                   }
                   .offcanvas-body > ul > li:hover > a {
-                    color: #ffffff !important;
+                    color: #300c47 !important;
                     font-weight: bold;
                     transition: color 0.4s ease, font-weight 0.4s ease;
                   }
                   .offcanvas-body > ul > li div > ul> li:hover>a {
-                    color: #ffffff !important;
+                    color: #300c47 !important;
                     font-weight: bold;
                     transition: color 0.4s ease, font-weight 0.4s ease;
                   }
                   .offcanvas-body > ul > li div > ul> li:hover>a {
-                    border-bottom: 1px solid #ffffff;
+                    border-bottom: 1px solid #300c47;
                     transition: color 0.4s ease, font-weight 0.4s ease;
                   }
                   .offcanvas-body > ul > li:hover{
-                    border-bottom: 1px solid #ffffff;
+                    border-bottom: 1px solid #300c47;
                     transition: color 0.4s ease, font-weight 0.4s ease;
                   }
                 .navbar-toggler{
@@ -462,7 +462,7 @@
                  <div class="footer-item">
                     <div class="footer-logo">
                        <a class="logo" href="{{route('home')}}">
-                       <img src="{{asset('storage/logos/'.$userData->weblogo)}}" style="height: 55px!important;">
+                       <img src="{{asset('storage/logos/'.$userData->footerlogo)}}" style="height: 55px!important;">
                        </a>
                        <ul>
                           <!--<li>-->
@@ -887,7 +887,7 @@ $(document).ready(function () {
         padding: 10px;
         outline: none;
         font-size: 14px;
-        border: 1px solid #274269
+        border: 1px solid #621991
     }
     #search-results {
         max-height: 300px;
@@ -1031,7 +1031,7 @@ $(document).ready(function () {
         padding: 10px;
         outline: none;
         font-size: 14px;
-        border: 1px solid #274269
+        border: 1px solid #621991
     }
     #search-results-mobile {
         max-height: 300px;

@@ -61,6 +61,46 @@
 </div>
 <!-- End Support -->
 
+<!-- Buy -->
+<div class="buy-area">
+    @foreach ($adsbanner as $ads)
+    @if($ads->is_featured == 1 && $ads->is_feature_no == 1 && $ads->status == 1)<div class="buy-shape">
+        <img src="{{asset('')}}frontend/assets/images/shape3.png" alt="Shape">
+    </div>
+    <div class="container-fluid p-0">
+        <div class="row m-0 align-items-center">
+            <div class="col-lg-6 p-0">
+                <div class="buy-img">
+                    <img src="{{asset('storage/'.$ads->image)}}" alt="{{$ads->title}}">
+                </div>
+            </div>
+            <div class="col-lg-6 p-0">
+                <div class="buy-content ptb-100">
+                    <h2>{{$ads->header}}</h2>
+                    <h4>{{$ads->title}}</h4>
+                    {{-- <ul>
+                                <li>৳160.00</li>
+                                <li>
+                                    <del>৳200.00</del>
+                                </li>
+                            </ul> --}}
+                    @if($ads->shop_url != null)
+                    <a class="common-btn custom-btn-1" href="{{$ads->shop_url}}">
+                        Shop Now
+                        <img src="{{asset('')}}frontend/assets/images/shape1.png" alt="Shape">
+                        <img src="{{asset('')}}frontend/assets/images/shape2.png" alt="Shape">
+                    </a>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+    {{-- @break --}}
+    @endforeach
+</div>
+<!-- End Buy -->
+
 <!-- Products -->
 <div class="products-area two">
     <div class="container">
@@ -115,7 +155,7 @@
 <!-- Buy -->
 <div class="buy-area">
     @foreach ($adsbanner as $ads)
-    @if($ads->is_featured == 1 && $ads->is_feature_no == 1)<div class="buy-shape">
+    @if($ads->is_featured == 1 && $ads->is_feature_no == 2  && $ads->status == 1)<div class="buy-shape">
         <img src="{{asset('')}}frontend/assets/images/shape3.png" alt="Shape">
     </div>
     <div class="container-fluid p-0">
@@ -156,4 +196,44 @@
 
 @livewire('home-component')
 <!-- End All Products -->
+
+<!-- Buy -->
+<div class="buy-area">
+    @foreach ($adsbanner as $ads)
+    @if($ads->is_featured == 1 && $ads->is_feature_no == 3  && $ads->status == 1)<div class="buy-shape">
+        <img src="{{asset('')}}frontend/assets/images/shape3.png" alt="Shape">
+    </div>
+    <div class="container-fluid p-0">
+        <div class="row m-0 align-items-center">
+            <div class="col-lg-6 p-0">
+                <div class="buy-img">
+                    <img src="{{asset('storage/'.$ads->image)}}" alt="{{$ads->title}}">
+                </div>
+            </div>
+            <div class="col-lg-6 p-0">
+                <div class="buy-content ptb-100">
+                    <h2>{{$ads->header}}</h2>
+                    <h4>{{$ads->title}}</h4>
+                    {{-- <ul>
+                                <li>৳160.00</li>
+                                <li>
+                                    <del>৳200.00</del>
+                                </li>
+                            </ul> --}}
+                    @if($ads->shop_url != null)
+                    <a class="common-btn custom-btn-1" href="{{$ads->shop_url}}">
+                        Shop Now
+                        <img src="{{asset('')}}frontend/assets/images/shape1.png" alt="Shape">
+                        <img src="{{asset('')}}frontend/assets/images/shape2.png" alt="Shape">
+                    </a>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+    {{-- @break --}}
+    @endforeach
+</div>
+<!-- End Buy -->
 @endsection
