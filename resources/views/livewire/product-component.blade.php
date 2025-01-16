@@ -411,69 +411,33 @@
                             </ul>
 
                         </div>
-                        @elseif (!empty($sizeStockData) )
-                        <div class="size-varient">
-                            <h4 class="size-varient-title">Size</h4>
-                            <ul class="size-varient-list size-filter" id="sizeOptions">
-                                @php $active = true; @endphp
-
-                                @foreach($sizeStockData as $sizeName => $stock)
-                                @php
-                                $size = $sizes->firstWhere('size', $sizeName);
-                                $isDisabled = $stock['balance'] <= 0; @endphp @if($size) @if ($stock['balance']> 0)
-                                    <li class="{{ $active ? 'active' : '' }}">
-                                        <div class="size-option" data-size="{{ $size->size }}"
-                                            wire:click="itemSize(40)">
-                                            <span>{{ $size->size }}</span>
-                                        </div>
-                                        <p class="size-stock-preview"> {{ $stock['balance'] }}
-                                            Items
-                                        </p>
-                                    </li>
-                                    @else
-                                    <li
-                                        class="{{ $active && !$isDisabled ? 'active' : '' }} {{ $isDisabled ? 'disabled' : '' }}">
-                                        <div class="size-option" data-size="{{ $size->size }}"
-                                            wire:click="itemSize(40)">
-                                            <span>{{ $size->size }}</span>
-                                        </div>
-                                        <p class="size-stock-preview"> {{ $stock['balance'] }}
-                                            Items
-                                        </p>
-                                    </li>
-                                    @endif
-                                    @php $active = false; @endphp
-                                    @endif
-                                    @endforeach
-                            </ul>
-                        </div>
                         @endif
+                        @if ($selectedSize)
+                            <div class="buttons">
+                                <ul class="buttons-list">
+                                    @if($product->balance > 0)
+                                    <li>
+                                        @livewire('update-quantity-component')
+                                    </li>
 
-                        <div class="buttons">
-                            <ul class="buttons-list">
-                                @if($product->balance > 0)
-                                <li>
-                                    @livewire('update-quantity-component')
-                                </li>
 
+                                    <li>
+                                        <a wire:click.prevent="buyNow({{ $product->id }})" class="common-btn buy-now-btn"
+                                            href="#" wire:ignore>
+                                            <i class='bx bxs-shopping-bag'></i> Buy Now
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a wire:click.prevent="store({{ $product->id }})" class="common-btn ad-cart-btn"
+                                            href="#" wire:ignore>
+                                            Add To Cart <i class='bx bxs-cart-add'></i>
+                                        </a>
+                                    </li>
 
-                                <li>
-                                    <a wire:click.prevent="buyNow({{ $product->id }})" class="common-btn buy-now-btn"
-                                        href="#" >
-                                        <i class='bx bxs-shopping-bag'></i> Buy Now
-                                    </a>
-                                </li>
-                                <li>
-                                    <a wire:click.prevent="store({{ $product->id }})" class="common-btn ad-cart-btn"
-                                        href="#" >
-                                        Add To Cart <i class='bx bxs-cart-add'></i>
-                                    </a>
-                                </li>
-
-                                @endif
-                            </ul>
-                        </div>
-
+                                    @endif
+                                </ul>
+                            </div>
+                        @endif
                     </div>
                     <div class="product-tag-info">
                         <ul class="product-meta">
@@ -815,17 +779,41 @@
             });
     });
     // add to cart button and buy now button disable start
+
+
+
     $(document).ready(function () {
+        $('.product-preview').slick({
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		arrows: false,
+		fade: true,
+		asNavFor: '.products-nav'
+	});
+	$('.products-nav').slick({
+		slidesToShow: 20,
+		slidesToScroll: 1,
+		asNavFor: '.product-preview',
+		centerPadding: '20px',
+		dots: false,
+		centerMode: true,
+		focusOnSelect: true,
+		vertical: true,
+		verticalSwiping: true,
+	});
+
+
         var imageCount = @json($imageCount);
         const buyNowBtn = $('.buy-now-btn');
         const addToCartBtn = $('.ad-cart-btn');
-        const colorOptions = $('.color-option');
+        // const colorOptions = $('.color-option');
+        const sizeOptions = $('.sizeclick');
 
-        const messageBox = $('#color-selection-message');
-        const choosePowerLens = $('#Choose_power_lens');
-        const buyOnlyFrame = $('#Buy_only_frame');
-        const Chooselens = $('.Chooselens');
-        const fileup = $('.fileup');
+        // const messageBox = $('#color-selection-message');
+        // const choosePowerLens = $('#Choose_power_lens');
+        // const buyOnlyFrame = $('#Buy_only_frame');
+        // const Chooselens = $('.Chooselens');
+        // const fileup = $('.fileup');
 
         disableButtons();
 
@@ -844,28 +832,31 @@
             messageBox.show();
         }
 
-        colorOptions.on('click', function () {
+        // colorOptions.on('click', function () {
+        //     enableButtons();
+        // });
+        sizeOptions.on('click', function () {
             enableButtons();
         });
 
-        choosePowerLens.on('click', function () {
-            disableButtons();
-        });
-        const selectlens = 0;
-        Chooselens.on('click', function () {
-            selectlens =1;
-        });
-        buyOnlyFrame.on('click', function () {
-            enableButtons();
-        });
+        // choosePowerLens.on('click', function () {
+        //     disableButtons();
+        // });
+        // const selectlens = 0;
+        // Chooselens.on('click', function () {
+        //     selectlens =1;
+        // });
+        // buyOnlyFrame.on('click', function () {
+        //     enableButtons();
+        // });
 
-        fileup.on('change', function () {
-            if(selectlens == 1){
-                enableButtons();
-            }else{
-                disableButtons();
-            }
-        });
+        // fileup.on('change', function () {
+        //     if(selectlens == 1){
+        //         enableButtons();
+        //     }else{
+        //         disableButtons();
+        //     }
+        // });
 
         buyNowBtn.on('click', function (e) {
             if (colorOptions.filter('.active').length === 0) {
@@ -885,7 +876,7 @@
         $('.color-option').on('click', function(event) {
             var selectedColor = $(this).data('color'); // Get the selected color ID
 
-            // console.log(selectedColor);
+            console.log(selectedColor);
 
             var mainSlider = $('.products-nav');
             var thumbnailSlider = $('.product-preview');
@@ -897,8 +888,11 @@
             // var selectedThumbIndex =-imageCount+thumbnailSlider.find('.product-img--main[data-color="' + selectedColor + '"]').closest('.item').index();
 
             // Go to the selected color image in both sliders
+            console.log(selectedIndex);
+
             mainSlider.slick('slickGoTo', selectedIndex);
             thumbnailSlider.slick('slickGoTo', selectedIndex);
+
         });
 
     });

@@ -33,6 +33,7 @@ class ProductComponent extends Component
     {
         // dd($color);
         $this->selectedColor = $color;
+        $this->selectedSize = null;
     }
 
     public function selectSizeVariant($sizename,$variant)

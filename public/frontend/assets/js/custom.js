@@ -8,7 +8,7 @@ jQuery(function ($) {
         } else {
             $('.main-nav').removeClass('menu-shrink');
         }
-    });	
+    });
 
     // Mean Menu
 	jQuery('.mean-menu').meanmenu({
@@ -23,7 +23,7 @@ jQuery(function ($) {
     // Nice Select
     $('select').niceSelect();
 
-	// Revolution Slider 
+	// Revolution Slider
 	jQuery('#rev_slider_1').show().revolution({
 		sliderLayout: 'auto',
 		responsiveLevels: [1240, 1024, 778, 480],
@@ -36,7 +36,7 @@ jQuery(function ($) {
                 enable: true,
                 style: 'gyges',
 				hide_onleave: false,
-                
+
                 left: {
                     container: 'layergrid',
                     h_align: 'center',
@@ -44,7 +44,7 @@ jQuery(function ($) {
                     h_offset: -30,
                     v_offset: 155,
                 },
-         
+
                 right: {
                     container: 'layergrid',
                     h_align: 'center',
@@ -126,8 +126,8 @@ jQuery(function ($) {
 			"<i class='bx bx-right-arrow-alt'></i>"
 		],
 	});
-	
-	// Number 
+
+	// Number
 	$('.minus').on('click', function() {
 		var $input = $(this).parent().find('input');
 		var count = parseInt($input.val()) - 1;
@@ -143,17 +143,17 @@ jQuery(function ($) {
 		return false;
 	});
 
-	// Preloader 
+	// Preloader
 	jQuery(window).on('load', function(){
 		jQuery('.loader').fadeOut(500);
 	});
-	
-	// Go Top 
+
+	// Go Top
 	$(window).on('scroll', function(){
 		var scrolled = $(window).scrollTop();
 		if (scrolled > 100) $('.go-top').addClass('active');
 		if (scrolled < 100) $('.go-top').removeClass('active');
-	});  
+	});
 	$('.go-top').on('click', function() {
 		$('html, body').animate({ scrollTop: '0' },  0);
 	});
@@ -185,10 +185,10 @@ jQuery(function ($) {
 		}
 	});
 
-	// Timer 
+	// Timer
 	let getDaysId = document.getElementById('days');
 	if(getDaysId !== null){
-		
+
 		const second = 1000;
 		const minute = second * 60;
 		const hour = minute * 60;
@@ -236,7 +236,7 @@ jQuery(function ($) {
 		}
 	});
 
-	// Accordion 
+	// Accordion
 	$('.accordion > li:eq(0) .faq-head').addClass('active').next().slideDown();
 	$('.accordion .faq-head').on('click', function(j) {
 		var dropDown = $(this).closest('li').find('.faq-content');
@@ -256,7 +256,7 @@ jQuery(function ($) {
 		$('#modal-subscribe').modal ('show')
 	}, 1500)
 
-	// Subscribe Form 
+	// Subscribe Form
 	$('.newsletter-form').validator().on('submit', function (event) {
 		if (event.isDefaultPrevented()) {
 			// Hande the invalid form...
@@ -312,7 +312,7 @@ jQuery(function ($) {
         ]
     });
 
-	// AJAX Mail Chimp 
+	// AJAX Mail Chimp
 	$('.newsletter-form').ajaxChimp({
 		url: 'https://hibootstrap.us20.list-manage.com/subscribe/post?u=60e1ffe2e8a68ce1204cd39a5&amp;id=42d6d188d9', // Your url MailChimp
 		callback: callbackFunction
@@ -340,25 +340,25 @@ jQuery(function ($) {
 		}
 	});
 
-	
-	$('.product-preview').slick({
-		slidesToShow: 1,
-		slidesToScroll: 1,
-		arrows: false,
-		fade: true,
-		asNavFor: '.products-nav'
-	});
-	$('.products-nav').slick({
-		slidesToShow: 3,
-		slidesToScroll: 1,
-		asNavFor: '.product-preview',
-		centerPadding: '20px',
-		dots: false,
-		centerMode: true,
-		focusOnSelect: true,
-		vertical: true,
-		verticalSwiping: true,
-	});
+
+	// $('.product-preview').slick({
+	// 	slidesToShow: 1,
+	// 	slidesToScroll: 1,
+	// 	arrows: false,
+	// 	fade: true,
+	// 	asNavFor: '.products-nav'
+	// });
+	// $('.products-nav').slick({
+	// 	slidesToShow: 3,
+	// 	slidesToScroll: 1,
+	// 	asNavFor: '.product-preview',
+	// 	centerPadding: '20px',
+	// 	dots: false,
+	// 	centerMode: true,
+	// 	focusOnSelect: true,
+	// 	vertical: true,
+	// 	verticalSwiping: true,
+	// });
 
 
 
@@ -383,6 +383,6 @@ jQuery(function ($) {
             .children('.product-img--main__image').css({'background-image': 'url('+ $(this).attr('data-image') +')'});
         });
 
-	 
+
 
 }(jQuery));
