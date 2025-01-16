@@ -16,7 +16,7 @@
                 <div class="row g-3">
                     <div class="col-md-6 mb-2">
                         <label for="ads_header" class="form-label">Header Title<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="ads_header" name="ads_header" placeholder="Header Title" required>
+                        <input type="text" class="form-control" id="ads_header" name="ads_header" placeholder="Header Title" >
                     </div>
                     <div class="col-md-6 mb-2">
                         <label for="ads_title" class="form-label">Main Title<span class="text-danger">*</span></label>
@@ -46,9 +46,9 @@
                         <label for="is_feature_no" class="form-label">Position No. </label>
                         <select class="form-control" id="is_feature_no" name="is_feature_no">
                             <option value="0">Select Position No.</option>
-                            <option value="1">1. After New Arrival</option>
-                            <option value="2">2. After Campaign</option>
-                            <option value="3">3. After Popular Products</option>
+                            <option value="1">1. After Delivery</option>
+                            <option value="2">2. After New Arrival</option>
+                            <option value="3">3. After All Products</option>
                         </select>
                     </div>
 

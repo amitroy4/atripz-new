@@ -34,11 +34,11 @@
                     <thead>
                         <tr>
                             <th>#SN</th>
-                            <th>Title</th>
-                            <th>Subtitle </th>
-                            <th width=20% >Image</th>
-                            <th>Button Text</th>
-                            <th>Button Link</th>
+                            {{-- <th>Title</th> --}}
+                            {{-- <th>Subtitle </th> --}}
+                            <th width="80%">Image</th>
+                            {{-- <th>Button Text</th> --}}
+                            {{-- <th>Button Link</th> --}}
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -46,17 +46,20 @@
                         @foreach ($sliders as $key => $slider)
                         <tr >
                             <td >{{$key+1}}</td>
-                            <td >{{$slider->title}}</td>
-                            <td>{{$slider->subtitle}}</td>
-                            <td>
+                            {{-- <td >{{$slider->title}}</td> --}}
+                            {{-- <td>{{$slider->subtitle}}</td> --}}
+                            {{-- <td>
                                 <img src="{{asset('storage/'.$slider->image)}}" alt="{{$slider->title}}" width="100%">
-                            </td>
-                            <td>
+                            </td> --}}
+                            <th>
+                                <img src="{{asset('storage/'.$slider->image)}}" alt="Image Description" style="width: 100%; height: 450px;">
+                              </th>
+                            {{-- <td>
                                 {{$slider->btntext}}
-                            </td>
-                            <td>
+                            </td> --}}
+                            {{-- <td>
                                 {{$slider->slider_url}}
-                            </td>
+                            </td> --}}
                             <td>
 
                                 <form class="deleteForm" action="{{ route('slider.destroy', $slider->id) }}" method="post">

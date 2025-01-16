@@ -365,12 +365,12 @@
                 <option value="{{$color->id}}">{{$color->color_name}}</option>
                 @endforeach
             </select>
-            {{-- <select name="variant_size[]" class="form-control mr-2 size-select">
+            <select name="variant_size[]" class="form-control mr-2 size-select">
                 <option value="">Select Size</option>
                 @foreach($sizes as $size)
                 <option value="{{$size->id}}">{{$size->size}}</option>
                 @endforeach
-            </select> --}}
+            </select>
             <input type="number" name="variant_price[]" class="form-control mr-2" placeholder="Price">
             <input type="number" name="variant_stock[]" class="form-control mr-2" placeholder="Stock">
             <button type="button" class="btn-custom btn-custom-danger removeVariant">

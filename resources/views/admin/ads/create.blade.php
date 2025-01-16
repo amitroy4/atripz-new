@@ -48,9 +48,9 @@
                         <label for="is_feature_no" class="form-label">Position No. </label>
                         <select class="form-control" id="is_feature_no" name="is_feature_no">
                             <option value="0">Select Position No.</option>
-                            <option value="1">1. After New Arrival</option>
-                            <option value="2">2. After Campaign</option>
-                            <option value="3">3. After Popular Products</option>
+                            <option value="1">1. After Delivery</option>
+                            <option value="2">2. After New Arrival</option>
+                            <option value="3">3. After All Products</option>
                         </select>
                     </div>
 

@@ -6,7 +6,21 @@
                     <div class="row">
                         <div class="col-3 col-sm-3 col-lg-3">
                             <div class="products-nav" wire:ignore>
-                                @if ($product->product_images->isNotEmpty())
+                                @if ($product->colorImages)
+                                @foreach ($product->colorImages as $value)
+                                <div class="item" >
+                                    {{-- <div>{{$value->color_id}}</div> --}}
+                                    <div class="top-img" data-color="{{$value->color_id}}">
+                                        <img src="{{asset('storage/'.$value->image)}}"
+                                            alt="Product">
+                                    </div>
+                                </div>
+                                @endforeach
+                                @endif
+                                @php
+                                    $imageCount = 0;
+                                @endphp
+                                @if ($product->product_images->isNotEmpty() && $product->colorImages->isEmpty())
                                 @php
                                     $imageCount = count($product->product_images);
                                 @endphp
@@ -19,30 +33,11 @@
                                 </div>
                                 @endforeach
                                 @endif
-                                @if ($product->colorImages)
-                                @foreach ($product->colorImages as $value)
-                                <div class="item" >
-                                    <div class="top-img" data-color="{{$value->color_id}}">
-                                        <img src="{{asset('storage/'.$value->image)}}"
-                                            alt="Product">
-                                    </div>
-                                </div>
-                                @endforeach
-                                @endif
+
                             </div>
                         </div>
                         <div class="col-9 col-sm-9 col-lg-9 mt-2">
                             <div class="product-preview" wire:ignore>
-                                @if ($product->product_images->isNotEmpty())
-                                @foreach ($product->product_images as $image)
-                                <div class="item">
-                                    <div class="product-img--main" data-scale="2"
-                                        data-image="{{asset('storage/product_images/'.$image->product_image)}}"
-                                        style="width: 555.984px;">
-                                    </div>
-                                </div>
-                                @endforeach
-                                @endif
                                 @if ($product->colorImages)
                                 @foreach ($product->colorImages as $value)
                                 <div class="item">
@@ -54,6 +49,17 @@
                                 </div>
                                 @endforeach
                                 @endif
+                                @if ($product->product_images->isNotEmpty() && $product->colorImages->isEmpty())
+                                @foreach ($product->product_images as $image)
+                                <div class="item">
+                                    <div class="product-img--main" data-scale="2"
+                                        data-image="{{asset('storage/product_images/'.$image->product_image)}}"
+                                        style="width: 555.984px;">
+                                    </div>
+                                </div>
+                                @endforeach
+                                @endif
+
                             </div>
 
                         </div>
@@ -155,20 +161,21 @@
                                     @endforeach
                             </ul>
                         </div>
-                        <div class="variation-add-to-cart variations_button variation-add-to-cart-enabled">
+
+                        {{-- <div class="variation-add-to-cart variations_button variation-add-to-cart-enabled"> --}}
                             {{-- <input type="hidden" class="tm-epo-counter" name="tm-epo-counter" value="1">
                             <input type="hidden" data-epo-id="1" class="add-to-cart" name="ddtocart" value="19378"> --}}
-                            <div class="" id="extra-product-options">
+                            {{-- <div class="" id="extra-product-options">
                                 <div class="section-inner-wrap">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <h3 class="mt-3 mb-2">
                                                 <span class="">Let's </span>Choose Your Own Power Glass
-                                            </h3>
+                                            </h3> --}}
                                             {{-- <div class="mb-2">
                                                 <p>you can order this product with power lens</p>
                                             </div> --}}
-                                        </div>
+                                        {{-- </div>
                                         <div class="col-lg-12 col-md-12">
                                             <div class="ml-20 mb-3">
                                                 <div class="">
@@ -198,12 +205,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div id="powerlens" class="choosePowerLens" style="{{ $selectedEyewear == 'ChoosePowerLens' ? 'display:block;' : 'display:none;' }}">
+                                    </div> --}}
+                                    {{-- <div id="powerlens" class="choosePowerLens" style="{{ $selectedEyewear == 'ChoosePowerLens' ? 'display:block;' : 'display:none;' }}">
                                         <div class="row">
                                             <h4 class="mb-2"> Select type of lens</h4>
-                                            <span class="text-danger" id="lenseSelect_warning"></span>
-                                            @if ( stripos($product->category->category_name, 'lenses') != false ||
+                                            <span class="text-danger" id="lenseSelect_warning"></span> --}}
+                                            {{-- @if ( stripos($product->category->category_name, 'lenses') != false ||
                                                 (isset($product->category->parent) &&
                                                 stripos($product->category->parent->category_name, 'lenses') != false)
                                                 )
@@ -299,8 +306,8 @@
                                                      </li>
                                                  </ul>
                                              </div>
-                                            @endif
-                                        </div>
+                                            @endif --}}
+                                        {{-- </div> --}}
                                         {{-- <div class="row my-4">
                                             <div class="col-lg-12 col-md-12">
                                                 <h3 class="element-label">Prescription Note</h3>
@@ -317,7 +324,7 @@
                                                 </ul>
                                             </div>
                                         </div> --}}
-                                        <div class="row mb-4">
+                                        {{-- <div class="row mb-4">
                                             <div class="col-lg-12">
                                                 <p>Please upload your recent prescription image here.</p>
                                                 <span class="text-danger" id="image_warning"></span>
@@ -348,62 +355,89 @@
                                             @endif
 
                                             @error('prescriptionImage') <span class="text-danger">{{ $message }}</span> @enderror
-                                        </div>
-
+                                        </div> --}}
+{{--
                                             </div>
                                         </div>
                                     </div>
 
                                 </div>
                             </div>
-                            <div>
-                                <div>
+                            <div> --}}
+                                {{-- <div>
                                     <dl class="tm-extra-product-options-totals tm-custom-price-totals">
                                         <dt class="tm-options-totals">Options amount: </dt>
                                         <dd class="tm-options-totals ml-20">
                                             <span class="Price-amount amount active">
-                                                <bdi wire:ignore  id="lens_price">0.00<span class="Price-currencySymbol">৳</span></bdi>
+                                                <bdi wire:ignore  id="lens_price">0.00<span class="Price-currencySymbol">৳</span></bdi> --}}
                                                 {{-- <input type="hidden" id="lens_price" name="lens_price" class="lens_price"> --}}
-                                            </span>
-                                        </dd>
-                                        <dt class="tm-final-totals">Final total: </dt>
-                                        <dd class="tm-final-totals ml-20">
-                                            <span class="Price-amount final amount active ">
-                                                <bdi wire:ignore id="final_amount">0.00<span class="Price-currencySymbol">৳</span></bdi>
+                                            {{-- </span> --}}
+                                        {{-- </dd> --}}
+                                        {{-- <dt class="tm-final-totals">Final total: </dt> --}}
+                                        {{-- <dd class="tm-final-totals ml-20"> --}}
+                                            {{-- <span class="Price-amount final amount active "> --}}
+                                                {{-- <bdi wire:ignore id="final_amount">0.00<span class="Price-currencySymbol">৳</span></bdi> --}}
                                                 {{-- <input type="hidden" id="product_price" name="product_price" class="product-price"> --}}
-                                            </span>
-                                        </dd>
-                                    </dl>
-                                </div>
-                            </div>
-                        </div>
+                                            {{-- </span> --}}
+                                        {{-- </dd> --}}
+                                    {{-- </dl>
+                                </div> --}}
+                            {{-- </div>
+                        </div> --}}
                         @endif
 
-                        <div class="buttons">
-                            <ul class="buttons-list">
-                                @if($product->balance > 0)
-                                <li>
-                                    @livewire('update-quantity-component')
-                                </li>
+                        @if ($selectedColor)
+                        <div class="size-varient">
+                            <h4 class="size-varient-title">Size</h4>
 
-
-                                <li>
-                                    <a wire:click.prevent="buyNow({{ $product->id }})" class="common-btn buy-now-btn"
-                                        href="#" >
-                                        <i class='bx bxs-shopping-bag'></i> Buy Now
-                                    </a>
+                            <ul class="size-varient-list size-filter" id="sizeOptions">
+                                @foreach ($productDetails as $variant => $details)
+                                @foreach ($details as $index => $detail)
+                                @if ($index == $selectedColor)
+                                @foreach ($detail as $sizename => $size)
+                                @if ($size['inStock']>0)
+                                <li class="">
+                                    <div class="size-option @if ($sizename == $selectedSize) selected @endif"
+                                        data-size="{{ $sizename }}"
+                                        wire:click="selectSizeVariant('{{$sizename}}','{{ $size['variant_id'] }}')">
+                                        <span>{{ $sizename }} ({{ $size['inStock'] }})</span>
+                                    </div>
                                 </li>
-                                <li>
-                                    <a wire:click.prevent="store({{ $product->id }})" class="common-btn ad-cart-btn"
-                                        href="#" >
-                                        Add To Cart <i class='bx bxs-cart-add'></i>
-                                    </a>
-                                </li>
-
                                 @endif
+                                @endforeach
+                                @endif
+                                @endforeach
+                                @endforeach
                             </ul>
-                        </div>
 
+                        </div>
+                        @endif
+                        @if ($selectedSize)
+                            <div class="buttons">
+                                <ul class="buttons-list">
+                                    @if($product->balance > 0)
+                                    <li>
+                                        @livewire('update-quantity-component')
+                                    </li>
+
+
+                                    <li>
+                                        <a wire:click.prevent="buyNow({{ $product->id }})" class="common-btn buy-now-btn"
+                                            href="#" wire:ignore>
+                                            <i class='bx bxs-shopping-bag'></i> Buy Now
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a wire:click.prevent="store({{ $product->id }})" class="common-btn ad-cart-btn"
+                                            href="#" wire:ignore>
+                                            Add To Cart <i class='bx bxs-cart-add'></i>
+                                        </a>
+                                    </li>
+
+                                    @endif
+                                </ul>
+                            </div>
+                        @endif
                     </div>
                     <div class="product-tag-info">
                         <ul class="product-meta">
@@ -745,17 +779,41 @@
             });
     });
     // add to cart button and buy now button disable start
+
+
+
     $(document).ready(function () {
+        $('.product-preview').slick({
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		arrows: false,
+		fade: true,
+		asNavFor: '.products-nav'
+	});
+	$('.products-nav').slick({
+		slidesToShow: 20,
+		slidesToScroll: 1,
+		asNavFor: '.product-preview',
+		centerPadding: '20px',
+		dots: false,
+		centerMode: true,
+		focusOnSelect: true,
+		vertical: true,
+		verticalSwiping: true,
+	});
+
+
         var imageCount = @json($imageCount);
         const buyNowBtn = $('.buy-now-btn');
         const addToCartBtn = $('.ad-cart-btn');
-        const colorOptions = $('.color-option');
+        // const colorOptions = $('.color-option');
+        const sizeOptions = $('.sizeclick');
 
-        const messageBox = $('#color-selection-message');
-        const choosePowerLens = $('#Choose_power_lens');
-        const buyOnlyFrame = $('#Buy_only_frame');
-        const Chooselens = $('.Chooselens');
-        const fileup = $('.fileup');
+        // const messageBox = $('#color-selection-message');
+        // const choosePowerLens = $('#Choose_power_lens');
+        // const buyOnlyFrame = $('#Buy_only_frame');
+        // const Chooselens = $('.Chooselens');
+        // const fileup = $('.fileup');
 
         disableButtons();
 
@@ -774,28 +832,31 @@
             messageBox.show();
         }
 
-        colorOptions.on('click', function () {
+        // colorOptions.on('click', function () {
+        //     enableButtons();
+        // });
+        sizeOptions.on('click', function () {
             enableButtons();
         });
 
-        choosePowerLens.on('click', function () {
-            disableButtons();
-        });
-        const selectlens = 0;
-        Chooselens.on('click', function () {
-            selectlens =1;
-        });
-        buyOnlyFrame.on('click', function () {
-            enableButtons();
-        });
+        // choosePowerLens.on('click', function () {
+        //     disableButtons();
+        // });
+        // const selectlens = 0;
+        // Chooselens.on('click', function () {
+        //     selectlens =1;
+        // });
+        // buyOnlyFrame.on('click', function () {
+        //     enableButtons();
+        // });
 
-        fileup.on('change', function () {
-            if(selectlens == 1){
-                enableButtons();
-            }else{
-                disableButtons();
-            }
-        });
+        // fileup.on('change', function () {
+        //     if(selectlens == 1){
+        //         enableButtons();
+        //     }else{
+        //         disableButtons();
+        //     }
+        // });
 
         buyNowBtn.on('click', function (e) {
             if (colorOptions.filter('.active').length === 0) {
@@ -815,20 +876,23 @@
         $('.color-option').on('click', function(event) {
             var selectedColor = $(this).data('color'); // Get the selected color ID
 
-            // console.log(selectedColor);
+            console.log(selectedColor);
 
             var mainSlider = $('.products-nav');
             var thumbnailSlider = $('.product-preview');
 
             // Find the index of the selected color image in the main slider
-            var selectedIndex =imageCount+ mainSlider.find('.top-img[data-color="' + selectedColor + '"]').closest('.item').index();
+            var selectedIndex =-imageCount+mainSlider.find('.top-img[data-color="' + selectedColor + '"]').closest('.item').index();
             // console.log(selectedIndex);
             // Find the index of the selected color image in the thumbnail slider
-            var selectedThumbIndex =imageCount+ thumbnailSlider.find('.product-img--main[data-color="' + selectedColor + '"]').closest('.item').index();
+            // var selectedThumbIndex =-imageCount+thumbnailSlider.find('.product-img--main[data-color="' + selectedColor + '"]').closest('.item').index();
 
             // Go to the selected color image in both sliders
+            console.log(selectedIndex);
+
             mainSlider.slick('slickGoTo', selectedIndex);
-            thumbnailSlider.slick('slickGoTo', selectedThumbIndex);
+            thumbnailSlider.slick('slickGoTo', selectedIndex);
+
         });
 
     });

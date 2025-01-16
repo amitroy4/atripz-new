@@ -33,12 +33,12 @@
                                 <div>
                                     <!-- Product Name -->
                                     <h6>{{ $item->name }}</h6>
-                                    @if ($item->options->selected_eyewear == "ChoosePowerLens")
+                                    {{-- @if ($item->options->selected_eyewear == "ChoosePowerLens")
                                         <p class="badge bg-secondary text-light mb-1">{{ $item->options->selected_eyewear }}</p>
                                         <p class="badge bg-secondary text-light mb-1">{{ $item->options->lens_type }} : ৳{{ $item->options->lens_price }}</p>
                                     @elseif ($item->options->selected_eyewear == "BuyOnlyFrame")
                                         <p class="badge bg-secondary text-light">{{ $item->options->selected_eyewear }}</p>
-                                    @endif
+                                    @endif --}}
                                     <!-- Price and Quantity -->
                                     <span class="rate">৳ {{ $item->price }} x {{ $item->qty }}</span>
 

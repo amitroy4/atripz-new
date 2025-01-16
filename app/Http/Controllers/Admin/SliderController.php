@@ -37,7 +37,7 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'slider_title' => 'required|string',
+            'slider_title' => 'nullable|string',
             'slider_sub_title' => 'nullable|string',
             'btnText' => 'nullable|string',
             'slider_url' => 'nullable|url',
@@ -109,7 +109,7 @@ class SliderController extends Controller
         $slider = Slider::find($id);
 
         $rules = [
-            'slider_title' => 'required|string',
+            'slider_title' => 'nullable|string',
             'slider_sub_title' => 'nullable|string',
             'btnText' => 'nullable|string',
             'slider_url' => 'nullable|url',

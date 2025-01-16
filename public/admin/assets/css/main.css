@@ -539,7 +539,7 @@ b {
 }
 
 .menu-aside .menu-item.active .icon {
-  color: #621991;
+  color: #1a3661;
 }
 
 .menu-aside .menu-item.active .menu-link {
@@ -697,7 +697,7 @@ b {
   padding: 10px 40px;
   color: #ffffff;
   border: none;
-  background-color: #621991;
+  background-color: #1a3661;
   border-radius: 4px;
 }
 
@@ -729,7 +729,7 @@ b {
 .btn.btn-md {
   padding: 0.5rem 0.95rem;
   font-weight: 500;
-  background-color: #621991;
+  background-color: #1a3661;
   color: #ffffff;
 }
 
@@ -738,7 +738,7 @@ b {
 }
 
 .btn.btn-xs {
-  background-color: #621991;
+  background-color: #1a3661;
   color: #ffffff;
   border: none;
   font-size: 11px;
@@ -941,8 +941,8 @@ textarea.form-control {
 }
 
 .form-check-input:checked {
-  background-color: #621991;
-  border-color: #621991;
+  background-color: #1a3661;
+  border-color: #1a3661;
 }
 
 /*Nice select*/
@@ -5278,7 +5278,7 @@ ul.tag-content li i {
 	background-color: #fff;
 	padding: 40px;
 	border-radius: 5px;
-	border-bottom: 5px solid #621991;
+	border-bottom: 5px solid #1a3661;
 	-webkit-box-shadow: 0 0 20px 5px rgba(5,23,34,.05);
 	box-shadow: 0 0 20px 5px rgba(5,23,34,.05);
 }
@@ -5309,7 +5309,7 @@ ul.tag-content li i {
     /* width: 180px; */
     /* height: 2px; */
     /* background-color: #046963; */
-    color: #621991;
+    color: #1a3661;
     z-index: 9999;
   }
 .codex-authbox .auth-header h3 {
@@ -5574,7 +5574,7 @@ footer.main-footer {
     margin-right: 15px;
     /*background-color: #E52E16;*/
     /* background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12); */
-    background-image: linear-gradient(to right top, #621991, #7b269b, #9f4eb5, #b67cc5, #d19ccf);
+    background-image: linear-gradient(to right top, #1a3661, #7b269b, #9f4eb5, #b67cc5, #d19ccf);
 
 
     color: #fff !important;
@@ -5614,16 +5614,16 @@ footer.main-footer {
     border-radius: 28px; /* Adjust border-radius */
     color: #fff !important;
     background: transparent;
-    border: 1px solid #621991;
+    border: 1px solid #1a3661;
 }
 
 .nav-item .pos:hover .text {
     opacity: 1; /* Show text on hover */
     left: 40px; /* Move text inside the button */
     background-color: transparent; /* Change background color */
-    color: #621991 !important; /* Change text color */
+    color: #1a3661 !important; /* Change text color */
 }
 .nav-item .pos:hover span.icon{
     left: -35px;
-    color: #621991 !important;
+    color: #1a3661 !important;
 }

@@ -237,7 +237,7 @@ footer{
 
     <div class="bg-watermark">
         {{-- <img class="watermark" style="opacity: 0.08;" src="{{asset('storage/favicons/'.$userData->webfavicon)}}" alt="Watermark"> --}}
-        <img class="watermark" style="opacity: 0.08;" src="{{ base_path('public/storage/favicons/'.$userData->webfavicon)}}" alt="Watermark">
+        {{-- <img class="watermark" style="opacity: 0.08;" src="{{ base_path('public/storage/favicons/'.$userData->webfavicon)}}" alt="Watermark"> --}}
     </div>
 
 </body>

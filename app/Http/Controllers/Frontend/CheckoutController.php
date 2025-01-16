@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 // use DB;
+use App\Models\Size;
 use App\Models\Color;
 use App\Models\Order;
 use App\Models\Coupon;
@@ -85,6 +86,7 @@ class CheckoutController extends Controller
 
     public function store(Request $request)
     {
+
         // $cartItems = Cart::instance('cart')->content();
         // return $cartItems;
         $track_id = $this->generateCode();
@@ -111,6 +113,7 @@ class CheckoutController extends Controller
                 $order->is_shipping_different = $request->is_shipping ? 1 : 0;
                 $order->comment = $request->comment;
                 $order->save();
+                // dd($order);
                 $order_status = Orderstatus::create([
                     'order_id' => $order->id,
                 ]);
@@ -125,28 +128,34 @@ class CheckoutController extends Controller
                 $cartItems = Cart::instance('cart')->content();
                 // return $cartItems;
                 foreach ($cartItems as $cartItem) {
-                    $tempFilePath = $cartItem->options->prescription_image;
-
-                    if($tempFilePath){
-                        $permanentPath = "prescription/".basename($tempFilePath);
-                    }
-                    else{
-                        $permanentPath = null;
-                    }
                     $color = Color::where('color_name', $cartItem->options->color)->first();
+                    $size = Size::where('size', $cartItem->options->size)->first();
+                    // return $size;
+                    // $tempFilePath = $cartItem->options->prescription_image;
+
+                    // if($tempFilePath){
+                    //     $permanentPath = "prescription/".basename($tempFilePath);
+                    // }
+                    // else{
+                    //     $permanentPath = null;
+                    // }
+                    // return $size->id;
                     order_items::create([
                         'product_id' => $cartItem->id,
                         'order_id' => $order->id,
                         'color_id' => $color->id,
+                        'size_id' => $size->id,
                         'price' => $cartItem->price,
                         'quantity' => $cartItem->qty,
-                        'eyeweartype' => $cartItem->options->selected_eyewear,
-                        'lens_type' => $cartItem->options->lens_type,
-                        'prescription_note' => $cartItem->options->prescription_note,
-                        'prescription_image' => $permanentPath,
-                        'lens_price' => $cartItem->options->lens_price,
-                        'item_price_withlens' => $cartItem->options->final_amount,
+                        // 'eyeweartype' => $cartItem->options->selected_eyewear,
+                        // 'lens_type' => $cartItem->options->lens_type,
+                        // 'prescription_note' => $cartItem->options->prescription_note,
+                        // 'prescription_image' => $permanentPath,
+                        // 'lens_price' => $cartItem->options->lens_price,
+                        // 'item_price_withlens' => $cartItem->options->final_amount,
+
                     ]);
+
                     $item = [
                         'item_id' => $cartItem->id,
                         'item_name' => $cartItem->name,
@@ -154,13 +163,13 @@ class CheckoutController extends Controller
                         'quantity' => $cartItem->qty,
                     ];
                     $purchaseEventData['items'][] = $item;
-                    if($cartItem->options->selected_eyewear == 'ChoosePowerLens'){
-                        if($tempFilePath){
-                        Storage::disk('public')->move($tempFilePath, $permanentPath);
-                        Storage::disk('public')->delete($tempFilePath);
-                        session()->forget('temp_file_path');
-                        }
-                    }
+                    // if($cartItem->options->selected_eyewear == 'ChoosePowerLens'){
+                    //     if($tempFilePath){
+                    //     Storage::disk('public')->move($tempFilePath, $permanentPath);
+                    //     Storage::disk('public')->delete($tempFilePath);
+                    //     session()->forget('temp_file_path');
+                    //     }
+                    // }
                 }
 
                 $transaction = transactions::create([
@@ -231,6 +240,8 @@ class CheckoutController extends Controller
                         // You can show a session message or take any other action
                         return redirect()->back()->with('warning', 'The same email or phone already exists. Please login first.');
                     } else {
+
+
                         // Customer does not exist, create a new one
                         $customer = new Customer;
                         $customer->firstName  = $request->fname;
@@ -249,6 +260,7 @@ class CheckoutController extends Controller
                     $customerPhone = $customer->phone;
                     $customerEmail = $customer->email;
 
+                    // dd($customer);
                     // if new customer registration store.
                     if($request->is_createaccount){
                         $customer_reg = new Register_customer;
@@ -258,7 +270,7 @@ class CheckoutController extends Controller
                         $customer_reg->password = Hash::make($request->password);
                         $customer_reg->status = 'registerd';
                         $customer_reg->save();
-
+                        // dd($customer_reg);
                         $registration_status = $customer_reg->status;
                         $register_customer = Customer::find($customer_reg->customer_id);
                         $register_customer->update([
@@ -273,17 +285,19 @@ class CheckoutController extends Controller
                         $customer_reg->phone = $customerPhone;
                         $customer_reg->email = $customerEmail;
                         $customer_reg->password = Hash::make($customerPhone);
-                        $customer_reg->status = 'registerd';
+                        $customer_reg->status = 'not registerd';
                         $customer_reg->save();
-
                         $registration_status = $customer_reg->status;
+                        // dd($customer_reg);
+
                         $register_customer = Customer::find($customer_reg->customer_id);
                         $register_customer->update([
-                        'status' => $registration_status,
+                            'status' => $registration_status,
                         ]);
 
                         Session::flash('warning','Use your Phone number as password to login.');
                     }
+
 
                     $order = new Order;
                     $order->customer_id = $customer_id;
@@ -298,10 +312,10 @@ class CheckoutController extends Controller
                     $order->is_shipping_different = $request->is_shipping ? 1 : 0;
                     $order->comment = $request->comment;
                     $order->save();
-
                     $order_status = Orderstatus::create([
                         'order_id' => $order->id,
                     ]);
+                    // dd($order_status);
                     $purchaseEventData['transaction_id'] = $invoiceNo; // actual transaction ID
                     $purchaseEventData['value'] = $request->total_amount; // Total amount of the transaction
                     $purchaseEventData['tax'] = $request->tax; // Tax amount
@@ -312,30 +326,33 @@ class CheckoutController extends Controller
 
                     $cartItems = Cart::instance('cart')->content();
                     // return $cartItems;
+                    // dd($cartItems);
                     foreach ($cartItems as $cartItem) {
 
-                        $tempFilePath = $cartItem->options->prescription_image;
+                        // $tempFilePath = $cartItem->options->prescription_image;
 
-                        if($tempFilePath){
-                            $permanentPath = "prescription/".basename($tempFilePath);
-                        }
-                        else{
-                            $permanentPath = null;
-                        }
+                        // if($tempFilePath){
+                        //     $permanentPath = "prescription/".basename($tempFilePath);
+                        // }
+                        // else{
+                        //     $permanentPath = null;
+                        // }
                         $color = Color::where('color_name', $cartItem->options->color)->first();
-                        order_items::create([
+                        $size = Size::where('size', $cartItem->options->size)->first();
+                        // dd($size);
+                        $order_items =order_items::create([
                             'product_id' => $cartItem->id,
                             'order_id' => $order->id,
-                            'order_id' => $order->id,
+                            'size_id' => $size->id,
                             'color_id' => $color->id,
                             'price' => $cartItem->price,
                             'quantity' => $cartItem->qty,
-                            'eyeweartype' => $cartItem->options->selected_eyewear,
-                            'lens_type' => $cartItem->options->lens_type,
-                            'prescription_note' => $cartItem->options->prescription_note,
-                            'prescription_image' => $permanentPath,
-                            'lens_price' => $cartItem->options->lens_price,
-                            'item_price_withlens' => $cartItem->options->final_amount,
+                            // 'eyeweartype' => $cartItem->options->selected_eyewear,
+                            // 'lens_type' => $cartItem->options->lens_type,
+                            // 'prescription_note' => $cartItem->options->prescription_note,
+                            // 'prescription_image' => $permanentPath,
+                            // 'lens_price' => $cartItem->options->lens_price,
+                            // 'item_price_withlens' => $cartItem->options->final_amount,
                         ]);
 
                         $item = [
@@ -344,14 +361,16 @@ class CheckoutController extends Controller
                                 'price' => $cartItem->price,
                                 'quantity' => $cartItem->qty,
                             ];
+
+                        // dd($item);
                         $purchaseEventData['items'][] = $item;
-                        if($cartItem->options->selected_eyewear == 'ChoosePowerLens'){
-                            if($tempFilePath){
-                            Storage::disk('public')->move($tempFilePath, $permanentPath);
-                            Storage::disk('public')->delete($tempFilePath);
-                            session()->forget('temp_file_path');
-                            }
-                        }
+                        // if($cartItem->options->selected_eyewear == 'ChoosePowerLens'){
+                        //     if($tempFilePath){
+                        //     Storage::disk('public')->move($tempFilePath, $permanentPath);
+                        //     Storage::disk('public')->delete($tempFilePath);
+                        //     session()->forget('temp_file_path');
+                        //     }
+                        // }
                     }
 
                     if($request->is_shipping){
@@ -392,11 +411,14 @@ class CheckoutController extends Controller
                         'order_id' => $order->id,
                         'mode' => $request->payment_mode,
                     ]);
+
                 }
 
                 $order->notify(new NewPendingOrderNotification($order));
+                // dd($customer->email);
 
-                Mail::to( $customer->email)->send( new customerMail($order));
+                Mail::to($customer->email)->send( new customerMail($order));
+
 
             }
 

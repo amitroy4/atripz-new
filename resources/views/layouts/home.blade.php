@@ -462,7 +462,7 @@
                  <div class="footer-item">
                     <div class="footer-logo">
                        <a class="logo" href="{{route('home')}}">
-                       <img src="{{asset('storage/logos/'.$userData->weblogo)}}" style="height: 55px!important;">
+                       <img src="{{asset('storage/logos/'.$userData->footerlogo)}}" style="height: 55px!important;">
                        </a>
                        <ul>
                           <!--<li>-->

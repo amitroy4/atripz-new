@@ -54,7 +54,7 @@
                                         @endphp
 
                                         <h6><a href="{{route('cart')}}">{{substr($item->name,0,20)}}</a></h6>
-                                        @if ($item->options->selected_eyewear == "ChoosePowerLens")
+                                        {{-- @if ($item->options->selected_eyewear == "ChoosePowerLens")
                                             <div class="d-flex flex-column">
                                                 <span class="mb-1">
                                                     <span class="badge bg-secondary mb-1">{{ $item->options->selected_eyewear }}</span><br>
@@ -67,7 +67,7 @@
                                                     <span class="badge bg-secondary">{{ $item->options->selected_eyewear }}</span>
                                                 </span>
                                             </div>
-                                        @endif
+                                        @endif --}}
                                         <span class="rate"><span>{{$item->qty}} × </span>৳{{$item->price}}</span><br>
                                         <span class="rounded" style="display: inline-block; width: 15px; height: 15px; background-color: {{ $color_code }}; margin-top: 5px;"></span>
                                         <span>{{ $item->options->size }}</span>
